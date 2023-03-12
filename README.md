@@ -22,4 +22,5 @@ cd .local/share/nvim/plugged
 yarn install
 ```
 
-
+## Links
+* https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#project
