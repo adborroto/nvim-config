@@ -59,9 +59,9 @@ nnoremap <leader>et :NERDTreeToggle<CR>
 nnoremap <leader>en :NERDTree<CR>
 nnoremap <leader>ef :NERDTreeFind<CR>
 
-nnoremap <leader>tn :BufferPrevious<CR>
-nnoremap <leader>tp :BufferNext<CR>
-nnoremap <leader>tc :BufferClose<CR>
+nnoremap <leader>bn :BufferPrevious<CR>
+nnoremap <leader>bp :BufferNext<CR>
+nnoremap <leader>bc :BufferClose<CR>
 
 
 nmap     <C-F>f <Plug>CtrlSFPrompt
