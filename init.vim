@@ -9,6 +9,7 @@
 
 call plug#begin()
 
+Plug 'preservim/nerdcommenter'
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
 Plug 'https://github.com/preservim/nerdtree' " NerdTree
 Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
@@ -26,7 +27,7 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'} " this is for auto complete, prettier and tslinting
-
+Plug 'puremourning/vimspector'
 let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
 
 Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
@@ -45,24 +46,26 @@ call plug#end()
 :let mapleader = "\<Space>"
 
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>pp <cmd>Telescope find_files<cr>
+nnoremap <leader>pg <cmd>Telescope live_grep<cr>
+nnoremap <leader>pb <cmd>Telescope buffers<cr>
+nnoremap <leader>ph <cmd>Telescope help_tags<cr>
+nnoremap <leader>pp <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>pb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>ph <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
-nnoremap <leader>et :NERDTreeToggle<CR>
+nnoremap <leader>ee :NERDTreeToggle<CR>
 nnoremap <leader>en :NERDTree<CR>
 nnoremap <leader>ef :NERDTreeFind<CR>
 
-nnoremap <leader>bn :BufferPrevious<CR>
-nnoremap <leader>bp :BufferNext<CR>
-nnoremap <leader>bc :BufferClose<CR>
+nnoremap <leader>b<Left> :BufferPrevious<CR>
+nnoremap <leader>bp<Right> :BufferNext<CR>
+nnoremap <leader>ww :BufferClose<CR>
 
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 nmap     <C-F>f <Plug>CtrlSFPrompt
 vmap     <C-F>f <Plug>CtrlSFVwordPath
@@ -72,3 +75,6 @@ nmap     <C-F>p <Plug>CtrlSFPwordPath
 nnoremap <C-F>o :CtrlSFOpen<CR>
 nnoremap <C-F>t :CtrlSFToggle<CR>
 inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+
+map <Leader>kc <Plug>NERDCommenterComment
+map <Leader>ku <Plug>NERDCommenterUncomment
