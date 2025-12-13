@@ -1,0 +1,38 @@
+# neovim logs
+.nvimlog
+*.log
+
+# swap files
+*.swp
+*.swo
+*~
+
+# session files
+Session.vim
+*.session
+
+# temporary files
+*.tmp
+*.bak
+*.orig
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# plugin manager (optional - some prefer to commit lazy-lock.json)
+# lazy-lock.json
+
+# backup files
+*.backup
+*.old
+
+# test files
+test_*.lua
+*_test.lua

@@ -60,14 +60,27 @@ do
   map('n', '<C-k>', '<C-w>k', opts)
   map('n', '<C-l>', '<C-w>l', opts)
 
-  -- buffers
+  -- buffers/tabs
   map('n', '<S-h>', '<cmd>bprevious<cr>', opts)
   map('n', '<S-l>', '<cmd>bnext<cr>', opts)
   map('n', '<leader>bd', '<cmd>bdelete<cr>', opts)
+  -- tab navigation (vscode-like: ctrl+tab, ctrl+shift+tab)
+  map('n', '<C-Tab>', '<cmd>bnext<cr>', opts)
+  map('n', '<C-S-Tab>', '<cmd>bprevious<cr>', opts)
+  -- close tab
+  map('n', '<leader>bc', '<cmd>bdelete<cr>', opts)
+  -- close all other tabs
+  map('n', '<leader>bo', '<cmd>%bd|e#|bd#<cr>', opts)
 
   -- explorer (vscode: ctrl+b)
   map('n', '<C-b>', '<cmd>NvimTreeToggle<cr>', opts)
   map('n', '<leader>e', '<cmd>NvimTreeFocus<cr>', opts)
+  -- close explorer and focus code
+  map('n', '<leader>ec', '<cmd>NvimTreeClose<cr><C-w>l', opts)
+
+  -- terminal (vscode-like: ctrl+`)
+  map('n', '<leader>tt', '<cmd>ToggleTerm<cr>', opts)
+  map('t', '<Esc>', '<C-\\><C-n>', opts) -- exit terminal mode with Esc
 
   -- telescope (vscode: ctrl+p)
   map('n', '<C-p>', function()
@@ -111,6 +124,11 @@ do
   map('n', '<leader>xx', '<cmd>TroubleToggle document_diagnostics<cr>', opts)
   map('n', '<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>', opts)
 
+  -- git diff (visual diff)
+  map('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', opts)
+  map('n', '<leader>gdc', '<cmd>DiffviewClose<cr>', opts)
+  map('n', '<leader>gh', '<cmd>DiffviewFileHistory<cr>', opts)
+
   -- formatting
   map({ 'n', 'v' }, '<leader>f', function()
     local conform = prequire('conform')
@@ -118,6 +136,19 @@ do
       conform.format({ lsp_fallback = true, async = true, timeout_ms = 2000 })
     else
       vim.lsp.buf.format({ async = true })
+    end
+  end, opts)
+
+  -- go to definition (vscode F12)
+  map('n', '<F12>', function()
+    if vim.lsp.buf.definition then
+      vim.lsp.buf.definition()
+    end
+  end, opts)
+  -- go to references (vscode shift+F12)
+  map('n', '<S-F12>', function()
+    if vim.lsp.buf.references then
+      vim.lsp.buf.references()
     end
   end, opts)
 end
@@ -132,12 +163,16 @@ do
       wk.add({
         { "<leader>x", group = "+diagnostics" },
         { "<leader>b", group = "+buffer" },
+        { "<leader>g", group = "+git" },
+        { "<leader>h", group = "+git hunk" },
       })
     else
       -- fallback for older which-key
       wk.register({
         ["<leader>x"] = { name = "+diagnostics" },
         ["<leader>b"] = { name = "+buffer" },
+        ["<leader>g"] = { name = "+git" },
+        ["<leader>h"] = { name = "+git hunk" },
       })
     end
   end
@@ -194,11 +229,96 @@ do
   end
 end
 
--- gitsigns
+-- bufferline (tabs)
+do
+  local bufferline = prequire('bufferline')
+  if bufferline then
+    bufferline.setup({
+      options = {
+        mode = "buffers",
+        separator_style = "thin",
+        always_show_bufferline = true,
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        color_icons = true,
+        diagnostics = "nvim_lsp",
+        diagnostics_update_in_insert = false,
+        offsets = {
+          {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            text_align = "left",
+            separator = true,
+          },
+        },
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { 'close' },
+        },
+      },
+    })
+  end
+end
+
+-- gitsigns (git signs in gutter)
 do
   local gitsigns = prequire('gitsigns')
   if gitsigns then
-    gitsigns.setup({})
+    gitsigns.setup({
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local map = vim.keymap.set
+        local opts = { buffer = bufnr, noremap = true, silent = true }
+
+        -- navigation
+        map('n', ']c', function()
+          if vim.wo.diff then return ']c' end
+          vim.schedule(function() gs.next_hunk() end)
+          return '<Ignore>'
+        end, { expr = true, desc = "next hunk" })
+
+        map('n', '[c', function()
+          if vim.wo.diff then return '[c' end
+          vim.schedule(function() gs.prev_hunk() end)
+          return '<Ignore>'
+        end, { expr = true, desc = "prev hunk" })
+
+        -- actions
+        map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, { desc = "stage hunk" })
+        map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, { desc = "reset hunk" })
+        map('n', '<leader>hS', gs.stage_buffer, { desc = "stage buffer" })
+        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = "undo stage hunk" })
+        map('n', '<leader>hR', gs.reset_buffer, { desc = "reset buffer" })
+        map('n', '<leader>hp', gs.preview_hunk, { desc = "preview hunk" })
+        map('n', '<leader>hb', function() gs.blame_line({ full = true }) end, { desc = "blame line" })
+        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = "toggle blame" })
+        map('n', '<leader>hd', gs.diffthis, { desc = "diff this" })
+        map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = "diff this ~" })
+        map('n', '<leader>td', gs.toggle_deleted, { desc = "toggle deleted" })
+      end,
+    })
+  end
+end
+
+-- diffview (visual git diff)
+do
+  local diffview = prequire('diffview')
+  if diffview then
+    diffview.setup({
+      view = {
+        merge_tool = {
+          layout = "diff3_vertical",
+        },
+      },
+    })
   end
 end
 
@@ -404,6 +524,35 @@ do
   local trouble = prequire('trouble')
   if trouble then
     trouble.setup({})
+  end
+end
+
+-- terminal (toggleterm)
+do
+  local toggleterm = prequire('toggleterm')
+  if toggleterm then
+    toggleterm.setup({
+      size = 20,
+      open_mapping = [[<c-\>]],
+      hide_numbers = true,
+      shade_filetypes = {},
+      shade_terminals = true,
+      shading_factor = 2,
+      start_in_insert = true,
+      insert_mappings = true,
+      persist_size = true,
+      direction = "horizontal",
+      close_on_exit = true,
+      shell = vim.o.shell,
+      float_opts = {
+        border = "curved",
+        winblend = 0,
+        highlights = {
+          border = "Normal",
+          background = "Normal",
+        },
+      },
+    })
   end
 end
 
