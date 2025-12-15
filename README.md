@@ -1,15 +1,16 @@
 # configuration
 
-this neovim config is focused on a **vscode-like** experience for **node/typescript** and **python**:
+this neovim config is focused on a **onedark-themed**, **vscode-like** experience for **node/typescript** and **python**:
 
 - **package manager**: `lazy.nvim`
 - **file explorer**: `nvim-tree`
 - **fuzzy search**: `telescope` (+ `fzf-native`)
 - **tabs**: `bufferline.nvim` (vscode-like tab bar)
-- **terminal**: `toggleterm.nvim` (integrated terminal)
-- **git**: `gitsigns.nvim` + `diffview.nvim` (visual git diff)
+- **terminal**: `vim-floaterm` (floating terminals, python runner)
+- **git**: `gitsigns.nvim` + `diffview.nvim` (visual git diff) + `lazygit.nvim` (terminal git ui)
 - **lsp + completion**: `mason` + `nvim-lspconfig` + `nvim-cmp`
 - **formatting**: `conform.nvim`
+- **debugging**: `nvim-dap` + `nvim-dap-ui` + `nvim-dap-python` + `nvim-dap-virtual-text`
 
 ## install
 
@@ -20,6 +21,8 @@ this neovim config is focused on a **vscode-like** experience for **node/typescr
 - **make**: required for `telescope-fzf-native`
 - **node**: for `typescript-language-server`, `eslint`, and formatting tools like `prettier`
 - **python**: for python tooling (recommended: `pyright` via mason)
+- **debugging (optional)**: `debugpy` for python debug adapter (for example `pip install debugpy` or `:MasonInstall debugpy`)
+- **git ui (optional)**: `lazygit` binary available in your `PATH` (install via your package manager, for example `brew install lazygit` on macOS)
 
 ### first run
 
@@ -58,11 +61,19 @@ then install language servers and formatters (from inside neovim):
    ```
    installed packages show a checkmark ✓
 
-alternative: install all at once via command:
+alternative: install everything via mason:
 
-```
-:MasonInstall ts_ls eslint pyright ruff prettier prettierd black ruff_format
-```
+- **core tooling only**:
+
+  ```
+  :MasonInstall ts_ls eslint pyright ruff prettier prettierd black ruff_format
+  ```
+
+- **core tooling + python debugging**:
+
+  ```
+  :MasonInstall ts_ls eslint pyright ruff prettier prettierd black ruff_format debugpy
+  ```
 
 ## key shortcuts (vscode-like)
 
@@ -74,11 +85,14 @@ leader is **space**.
   - **`space ec`**: close explorer and focus code
   - **`ctrl+l`**: move focus to code window (when explorer is open)
   - **click code window**: switch focus (mouse)
-- **terminal**
-  - **`ctrl+\`**: toggle terminal (vscode-like)
-  - **`space tt`**: toggle terminal
-  - **`Esc`**: exit terminal mode (when in terminal)
-  - terminal opens at bottom, horizontal split
+- **terminal (vim-floaterm)**
+  - **`space ts`**: new floating terminal
+  - **`space tp`**: previous floating terminal
+  - **`space tn`**: next floating terminal
+  - **`space tt`**: toggle last floating terminal
+  - **python files**:
+    - **`F5`** (normal/insert): save and run current file with `python3` in floaterm
+    - **`space tr`**: save and run current file with `python3` in floaterm
 - **tabs/buffers**
   - **`ctrl+tab`**: next tab
   - **`ctrl+shift+tab`**: previous tab
@@ -109,6 +123,7 @@ leader is **space**.
   - **`space gd`**: open visual diff (side-by-side)
   - **`space gdc`**: close visual diff
   - **`space gh`**: file history
+  - **`space gg`**: open lazygit (terminal git ui)
   - **`space hs`**: stage hunk (visual mode: stage selection)
   - **`space hr`**: reset hunk
   - **`space hp`**: preview hunk
@@ -119,6 +134,14 @@ leader is **space**.
   - git signs show in gutter: `+` (added), `~` (changed), `_` (deleted)
 - **save**
   - **`ctrl+s`**: save (your terminal must pass this through)
+- **debugging (dap)**
+- **`space db`**: toggle breakpoint
+- **`space dc`**: start/continue debugging
+- **`space do`**: step over
+- **`space di`**: step into
+- **`space dO`**: step out
+- **`space dq`**: terminate debugging session
+- **`space du`**: toggle dap ui panel
 
 ## troubleshooting
 
@@ -152,6 +175,16 @@ look for checkmarks ✓ next to `prettier`, `prettierd`, `black`, `ruff_format`
 3. verify file type: `:set ft?` (should show file type like `javascript`, `python`, etc.)
 4. try manual format: `:lua require('conform').format()`
 
+### debugging quickstart
+
+for python:
+
+1. open a `*.py` file.
+2. set a breakpoint with `space db` on the line you want to stop.
+3. start debugging with `space dc` (continue).
+4. use `space do` / `space di` / `space dO` to step, and `space dq` to stop.
+5. toggle the dap ui panel with `space du`.
+
 ### reload config after changes
 
 ```
@@ -159,6 +192,15 @@ look for checkmarks ✓ next to `prettier`, `prettierd`, `black`, `ruff_format`
 ```
 
 or restart neovim
+
+## config layout
+
+- **`init.lua`**: entry point, sets leader, configures `lazy.nvim`, and declares plugins.
+- **`lua/config/`**:
+  - **`options.lua`**: core editor options.
+  - **`colors.lua`**: colorscheme and related settings.
+  - **`keymaps.lua`**: keymaps and which-key groups.
+- **`lua/plugins/`**: one file per plugin (for example `nvim-tree.lua`, `telescope.lua`, `lualine.lua`, `bufferline.lua`, `gitsigns.lua`, `diffview.lua`, `treesitter.lua`, `comment.lua`, `autopairs.lua`, `cmp.lua`, `lsp.lua`, `conform.lua`, `trouble.lua`, `floaterm.lua`, `dap.lua`).
 
 ## links
 
