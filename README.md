@@ -123,6 +123,11 @@ leader is **space**.
   - **`[d` / `]d`**: prev/next diagnostic
 - **formatting**
   - **`space f`**: format file/selection
+- **commenting**
+  - **`space kc`**: comment/uncomment current line or selection
+  - **`gcc`**: comment/uncomment current line
+  - **`gc`** (visual mode): comment/uncomment selected lines
+  - **`gbc`**: comment/uncomment current line (block comment style)
 - **git**
   - **`space gd`**: open visual diff (side-by-side)
   - **`space gdc`**: close visual diff
