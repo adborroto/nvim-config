@@ -142,7 +142,7 @@ leader is **space**.
   - **`space hd`**: diff this file
   - git signs show in gutter: `+` (added), `~` (changed), `_` (deleted)
 - **save**
-  - **`ctrl+s`**: save (your terminal must pass this through)
+  - **`space s`**: save file
 - **debugging (dap)**
   - **`space db`**: toggle breakpoint
   - **`space dc`**: start/continue debugging

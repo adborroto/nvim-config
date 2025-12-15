@@ -17,8 +17,8 @@ map({ 'n', 'v' }, '<leader>y', '"+y', opts)
 map('n', '<leader>Y', '"+Y', opts)
 map({ 'n', 'v' }, '<leader>d', '"_d', opts)
 
--- save (terminal must pass ctrl+s)
-map({ 'n', 'i', 'v' }, '<C-s>', '<Esc><cmd>w<cr>', opts)
+-- save
+map({ 'n', 'i', 'v' }, '<leader>s', '<Esc><cmd>w<cr>', opts)
 
 -- window navigation (vscode-ish)
 map('n', '<C-h>', '<C-w>h', opts)
