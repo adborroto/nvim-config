@@ -1,15 +1,16 @@
 -- vim-floaterm configuration
+-- we define explicit keymaps instead of relying on
+-- vim-floaterm's global keymap variables, so this
+-- works regardless of load order.
 
-local ok = pcall(vim.fn['floaterm#version'])
-if not ok then
-  return
-end
+local map = vim.keymap.set
+local opts = { noremap = true, silent = true }
 
 -- global keymaps for managing floaterm
-vim.g.floaterm_keymap_new    = '<leader>ts'
-vim.g.floaterm_keymap_prev   = '<leader>tp'
-vim.g.floaterm_keymap_next   = '<leader>tn'
-vim.g.floaterm_keymap_toggle = '<leader>tt'
+map('n', '<leader>ts', '<cmd>FloatermNew<cr>', opts)
+map('n', '<leader>tp', '<cmd>FloatermPrev<cr>', opts)
+map('n', '<leader>tn', '<cmd>FloatermNext<cr>', opts)
+map('n', '<leader>tt', '<cmd>FloatermToggle<cr>', opts)
 
 -- python-specific run bindings
 vim.api.nvim_create_autocmd('FileType', {

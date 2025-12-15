@@ -38,9 +38,9 @@ map('n', '<leader>bc', '<cmd>bdelete<cr>', opts)
 -- close all other tabs
 map('n', '<leader>bo', '<cmd>%bd|e#|bd#<cr>', opts)
 
--- explorer (vscode: ctrl+b)
-map('n', '<C-b>', '<cmd>NvimTreeToggle<cr>', opts)
-map('n', '<leader>e', '<cmd>NvimTreeFocus<cr>', opts)
+-- explorer (vscode: ctrl+e)
+map('n', '<leader>ee', '<cmd>NvimTreeToggle<cr>', opts)
+map('n', '<leader>ef', '<cmd>NvimTreeFocus<cr>', opts)
 -- close explorer and focus code
 map('n', '<leader>ec', '<cmd>NvimTreeClose<cr><C-w>l', opts)
 

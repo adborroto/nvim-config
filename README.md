@@ -80,11 +80,15 @@ alternative: install everything via mason:
 leader is **space**.
 
 - **file explorer**
-  - **`ctrl+b`**: toggle explorer (open/close)
-  - **`space e`**: focus explorer
+  - **`space ee`**: toggle explorer (open/close)
+  - **`space ef`**: focus explorer
   - **`space ec`**: close explorer and focus code
-  - **`ctrl+l`**: move focus to code window (when explorer is open)
   - **click code window**: switch focus (mouse)
+- **window navigation**
+  - **`ctrl+h`**: move to left window
+  - **`ctrl+j`**: move to window below
+  - **`ctrl+k`**: move to window above
+  - **`ctrl+l`**: move to right window
 - **terminal (vim-floaterm)**
   - **`space ts`**: new floating terminal
   - **`space tp`**: previous floating terminal
@@ -135,13 +139,13 @@ leader is **space**.
 - **save**
   - **`ctrl+s`**: save (your terminal must pass this through)
 - **debugging (dap)**
-- **`space db`**: toggle breakpoint
-- **`space dc`**: start/continue debugging
-- **`space do`**: step over
-- **`space di`**: step into
-- **`space dO`**: step out
-- **`space dq`**: terminate debugging session
-- **`space du`**: toggle dap ui panel
+  - **`space db`**: toggle breakpoint
+  - **`space dc`**: start/continue debugging
+  - **`space do`**: step over
+  - **`space di`**: step into
+  - **`space dO`**: step out
+  - **`space dq`**: terminate debugging session
+  - **`space du`**: toggle dap ui panel
 
 ## troubleshooting
 
