@@ -82,8 +82,16 @@ leader is **space**.
 - **file explorer**
   - **`space ee`**: toggle explorer (open/close)
   - **`space ef`**: focus explorer
-  - **`space ec`**: close explorer and focus code
+  - **`space ec`**: focus code while keeping explorer open
   - **click code window**: switch focus (mouse)
+  - **inside explorer (nvim-tree default)**
+    - **`a`**: create file or directory
+    - **`r`**: rename
+    - **`d`**: delete
+    - **`c` / `x` / `p`**: copy / cut / paste
+    - **`<cr>`**: open file in current window
+    - **`v` / `s`**: open file in vertical / horizontal split
+    - **`y` / `Y` / `gy`**: copy name / relative path / absolute path
 - **window navigation**
   - **`ctrl+h`**: move to left window
   - **`ctrl+j`**: move to window below
