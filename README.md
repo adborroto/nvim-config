@@ -33,6 +33,12 @@ cd ~/.config/nvim
 nvim
 ```
 
+plugins will be automatically installed on first launch. to manually install or update plugins:
+
+```
+:Lazy sync
+```
+
 then install language servers and formatters (from inside neovim):
 
 1. open mason ui:
@@ -120,6 +126,15 @@ leader is **space**.
   - **`space fg`**: live grep
   - **`space fb`**: buffers
   - **`space fr`**: recent files
+- **completion (nvim-cmp)**
+  - **`ctrl+space`**: trigger completion
+  - **`tab`**: select next item / expand snippet
+  - **`shift+tab`**: select previous item / jump snippet backward
+  - **`enter`**: confirm selection
+  - completion sources: lsp, snippets, buffer, path
+  - **cmdline completion**:
+    - type `/` for search: buffer completion
+    - type `:` for commands: path + command completion
 - **lsp**
   - **`F12`**: go to definition (vscode-like)
   - **`shift+F12`**: go to references
