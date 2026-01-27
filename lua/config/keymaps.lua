@@ -29,6 +29,8 @@ map('n', '<C-l>', '<C-w>l', opts)
 -- buffers/tabs
 map('n', '<S-h>', '<cmd>bprevious<cr>', opts)
 map('n', '<S-l>', '<cmd>bnext<cr>', opts)
+map('n', '<leader>bn', '<cmd>bnext<cr>', opts)
+map('n', '<leader>bp', '<cmd>bprevious<cr>', opts)
 map('n', '<leader>bd', '<cmd>bdelete<cr>', opts)
 -- tab navigation (vscode-like: ctrl+tab, ctrl+shift+tab)
 map('n', '<C-Tab>', '<cmd>bnext<cr>', opts)

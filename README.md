@@ -118,6 +118,8 @@ leader is **space**.
   - **`ctrl+shift+tab`**: previous tab
   - **`shift+h`**: previous tab
   - **`shift+l`**: next tab
+  - **`space bn`**: next buffer
+  - **`space bp`**: previous buffer
   - **`space bc`**: close current tab
   - **`space bd`**: close current tab
   - **`space bo`**: close all other tabs
@@ -132,15 +134,14 @@ leader is **space**.
   - **`space fp`**: find projects (switch between saved projects)
 - **project management (telescope-project.nvim)**
   - **`space fp`**: open project picker (switch between saved projects)
-  - **automatic scanning**: automatically finds git projects in configured base directories (`~/`, `~/dev`, `~/projects`, `~/code`, `~/workspace`)
   - **in project picker**:
-    - **`<CR>`** or **`f`**: open project files
+    - **`<CR>`** or **`f`**: open project files (telescope find_files)
     - **`c`**: create/add current directory as project
     - **`d`**: delete selected project
     - **`r`**: rename selected project
     - **`s`**: search inside project files
     - **`b`**: browse project files
-    - **`w`**: change to project directory without opening
+    - **`w`**: change to project directory without opening files
     - **`R`**: find recently opened files in project
 - **completion (nvim-cmp)**
   - **`ctrl+space`**: trigger completion
@@ -250,7 +251,9 @@ or restart neovim
   - press `c` to add the current directory as a project
   - if you're in a git repository, it will use the git root automatically
 - **switch projects**: use `<space>fp` to see all your projects and quickly switch between them
+- **default behavior**: pressing `<CR>` on a project opens telescope find_files in that project
 - **project actions** (in project picker):
+  - **`<CR>`** or **`f`**: open project files (telescope find_files)
   - **`c`**: create/add current directory as project
   - **`d`**: delete selected project
   - **`r`**: rename selected project
@@ -258,7 +261,6 @@ or restart neovim
   - **`b`**: browse project files
   - **`w`**: change to project directory without opening files
   - **`R`**: find recently opened files in project
-- **customization**: edit `lua/plugins/telescope.lua` to add more base directories or change settings
 
 ## config layout
 
