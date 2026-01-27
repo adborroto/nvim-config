@@ -83,6 +83,18 @@ map('n', '<leader>fr', function()
     builtin.oldfiles()
   end
 end, opts)
+map('n', '<leader>fR', function()
+  local telescope = prequire('telescope')
+  if telescope and telescope.extensions and telescope.extensions.repo then
+    telescope.extensions.repo.list()
+  end
+end, opts)
+map('n', '<leader>fp', function()
+  local telescope = prequire('telescope')
+  if telescope and telescope.extensions and telescope.extensions.project then
+    telescope.extensions.project.project()
+  end
+end, opts)
 
 -- trouble diagnostics list
 map('n', '<leader>xx', '<cmd>TroubleToggle document_diagnostics<cr>', opts)

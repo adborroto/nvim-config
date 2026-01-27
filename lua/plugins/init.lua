@@ -38,11 +38,14 @@ return {
   "nvim-lua/plenary.nvim",
   "nvim-telescope/telescope.nvim",
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  "cljoly/telescope-repo.nvim",
+  "nvim-telescope/telescope-project.nvim",
 
   -- syntax + editing
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "numToStr/Comment.nvim",
   "windwp/nvim-autopairs",
+  "udalov/kotlin-vim",
 
   -- lsp + completion (node + python)
   "neovim/nvim-lspconfig",

@@ -1,4 +1,4 @@
--- lsp (node + python) via mason and lspconfig
+-- lsp (node + python + kotlin) via mason and lspconfig
 
 local function prequire(mod)
   local ok, m = pcall(require, mod)
@@ -18,10 +18,11 @@ end
 mason.setup({})
 
 local ensure_installed = {
-  'ts_ls',   -- typescript/javascript
-  'eslint',  -- js/ts linting
+  'ts_ls',   -- typescript/javascript (lspconfig server name)
+  'eslint',  -- js/ts linting (lspconfig server name)
   'pyright', -- python
   'ruff',    -- python linting
+  'kotlin_language_server', -- kotlin (lspconfig server name)
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
