@@ -1,0 +1,2 @@
+-- GitHub Copilot (github/copilot.vim)
+-- Run :Copilot setup once to sign in. Use :help copilot for keymaps and options.
