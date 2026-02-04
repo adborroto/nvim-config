@@ -1,10 +1,10 @@
 # configuration
 
-this neovim config is focused on a **onedark-themed**, **vscode-like** experience for **node/typescript** and **python**:
+this neovim config is focused on a **onedark-themed**, **vscode-like** experience for **node/typescript**, **python**, and **kotlin**:
 
 - **package manager**: `lazy.nvim`
 - **file explorer**: `nvim-tree`
-- **fuzzy search**: `telescope` (+ `fzf-native`)
+- **fuzzy search**: `telescope` (+ `fzf-native` + `telescope-repo.nvim` + `telescope-project.nvim`)
 - **tabs**: `bufferline.nvim` (vscode-like tab bar)
 - **terminal**: `vim-floaterm` (floating terminals, python runner)
 - **git**: `gitsigns.nvim` + `diffview.nvim` (visual git diff) + `lazygit.nvim` (terminal git ui)
@@ -19,6 +19,7 @@ this neovim config is focused on a **onedark-themed**, **vscode-like** experienc
 - **neovim**: 0.9+ (0.10+ recommended)
 - **git**: required for plugin installation
 - **make**: required for `telescope-fzf-native`
+- **fd**: required for `telescope-repo.nvim` (find repositories on filesystem)
 - **node**: for `typescript-language-server`, `eslint`, and formatting tools like `prettier`
 - **python**: for python tooling (recommended: `pyright` via mason)
 - **debugging (optional)**: `debugpy` for python debug adapter (for example `pip install debugpy` or `:MasonInstall debugpy`)
@@ -33,6 +34,12 @@ cd ~/.config/nvim
 nvim
 ```
 
+plugins will be automatically installed on first launch. to manually install or update plugins:
+
+```
+:Lazy sync
+```
+
 then install language servers and formatters (from inside neovim):
 
 1. open mason ui:
@@ -43,17 +50,18 @@ then install language servers and formatters (from inside neovim):
 
 2. install language servers (press `i` on each):
 
-   - `ts_ls` (typescript/javascript)
-   - `eslint`
-   - `pyright`
-   - `ruff`
+   - `typescript-language-server` (typescript/javascript)
+   - `eslint-lsp` (js/ts linting)
+   - `pyright` (python)
+   - `ruff` (python linting)
+   - `kotlin-language-server` (kotlin)
 
 3. install formatters (press `i` on each):
 
    - `prettier` (javascript/typescript/json/yaml/markdown)
    - `prettierd` (prettier daemon, faster)
    - `black` (python)
-   - `ruff_format` (python, alternative to black)
+   - note: `ruff` also provides formatting (configured via conform.nvim)
 
 4. verify installation:
    ```
@@ -66,13 +74,13 @@ alternative: install everything via mason:
 - **core tooling only**:
 
   ```
-  :MasonInstall ts_ls eslint pyright ruff prettier prettierd black ruff_format
+  :MasonInstall typescript-language-server eslint-lsp pyright ruff kotlin-language-server prettier prettierd black
   ```
 
 - **core tooling + python debugging**:
 
   ```
-  :MasonInstall ts_ls eslint pyright ruff prettier prettierd black ruff_format debugpy
+  :MasonInstall typescript-language-server eslint-lsp pyright ruff kotlin-language-server prettier prettierd black debugpy
   ```
 
 ## key shortcuts (vscode-like)
@@ -110,6 +118,8 @@ leader is **space**.
   - **`ctrl+shift+tab`**: previous tab
   - **`shift+h`**: previous tab
   - **`shift+l`**: next tab
+  - **`space bn`**: next buffer
+  - **`space bp`**: previous buffer
   - **`space bc`**: close current tab
   - **`space bd`**: close current tab
   - **`space bo`**: close all other tabs
@@ -120,6 +130,28 @@ leader is **space**.
   - **`space fg`**: live grep
   - **`space fb`**: buffers
   - **`space fr`**: recent files
+  - **`space fR`**: find repositories (jump into git repos in your filesystem)
+  - **`space fp`**: find projects (switch between saved projects)
+- **project management (telescope-project.nvim)**
+  - **`space fp`**: open project picker (switch between saved projects)
+  - **in project picker**:
+    - **`<CR>`** or **`f`**: open project files (telescope find_files)
+    - **`c`**: create/add current directory as project
+    - **`d`**: delete selected project
+    - **`r`**: rename selected project
+    - **`s`**: search inside project files
+    - **`b`**: browse project files
+    - **`w`**: change to project directory without opening files
+    - **`R`**: find recently opened files in project
+- **completion (nvim-cmp)**
+  - **`ctrl+space`**: trigger completion
+  - **`tab`**: select next item / expand snippet
+  - **`shift+tab`**: select previous item / jump snippet backward
+  - **`enter`**: confirm selection
+  - completion sources: lsp, snippets, buffer, path
+  - **cmdline completion**:
+    - type `/` for search: buffer completion
+    - type `:` for commands: path + command completion
 - **lsp**
   - **`F12`**: go to definition (vscode-like)
   - **`shift+F12`**: go to references
@@ -209,6 +241,26 @@ for python:
 ```
 
 or restart neovim
+
+### project management
+
+**telescope-project.nvim** helps you manage and switch between projects:
+
+- **manual project addition**: 
+  - open the project picker with `<space>fp`
+  - press `c` to add the current directory as a project
+  - if you're in a git repository, it will use the git root automatically
+- **switch projects**: use `<space>fp` to see all your projects and quickly switch between them
+- **default behavior**: pressing `<CR>` on a project opens telescope find_files in that project
+- **project actions** (in project picker):
+  - **`<CR>`** or **`f`**: open project files (telescope find_files)
+  - **`c`**: create/add current directory as project
+  - **`d`**: delete selected project
+  - **`r`**: rename selected project
+  - **`s`**: search inside project files
+  - **`b`**: browse project files
+  - **`w`**: change to project directory without opening files
+  - **`R`**: find recently opened files in project
 
 ## config layout
 

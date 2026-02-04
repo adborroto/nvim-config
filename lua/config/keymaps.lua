@@ -29,6 +29,8 @@ map('n', '<C-l>', '<C-w>l', opts)
 -- buffers/tabs
 map('n', '<S-h>', '<cmd>bprevious<cr>', opts)
 map('n', '<S-l>', '<cmd>bnext<cr>', opts)
+map('n', '<leader>bn', '<cmd>bnext<cr>', opts)
+map('n', '<leader>bp', '<cmd>bprevious<cr>', opts)
 map('n', '<leader>bd', '<cmd>bdelete<cr>', opts)
 -- tab navigation (vscode-like: ctrl+tab, ctrl+shift+tab)
 map('n', '<C-Tab>', '<cmd>bnext<cr>', opts)
@@ -81,6 +83,18 @@ map('n', '<leader>fr', function()
   local builtin = prequire('telescope.builtin')
   if builtin then
     builtin.oldfiles()
+  end
+end, opts)
+map('n', '<leader>fR', function()
+  local telescope = prequire('telescope')
+  if telescope and telescope.extensions and telescope.extensions.repo then
+    telescope.extensions.repo.list()
+  end
+end, opts)
+map('n', '<leader>fp', function()
+  local telescope = prequire('telescope')
+  if telescope and telescope.extensions and telescope.extensions.project then
+    telescope.extensions.project.project()
   end
 end, opts)
 

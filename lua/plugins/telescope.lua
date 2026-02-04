@@ -25,3 +25,5 @@ telescope.setup({
 })
 
 pcall(telescope.load_extension, 'fzf')
+pcall(telescope.load_extension, 'repo')
+pcall(telescope.load_extension, 'project')
