@@ -152,15 +152,21 @@ leader is **space**.
   - **cmdline completion**:
     - type `/` for search: buffer completion
     - type `:` for commands: path + command completion
-- **lsp**
-  - **`F12`**: go to definition (vscode-like)
-  - **`shift+F12`**: go to references
+- **lsp** (works for any language with an attached LSP: TypeScript, Python, Kotlin, etc.)
   - **`gd`**: go to definition
-  - **`gr`**: references
-  - **`K`**: hover
-  - **`space rn`**: rename
+  - **`gD`**: go to declaration
+  - **`gI`**: go to implementation
+  - **`gr`**: find references (where symbol is used)
+  - **`K`**: hover documentation
+  - **`space rn`**: rename symbol
   - **`space ca`**: code action
-  - **`[d` / `]d`**: prev/next diagnostic
+  - **`[d`** / **`]d`**: previous / next diagnostic
+  - **`space q`**: open diagnostics list (location list)
+  - **`F12`**: go to definition (vscode-like)
+  - **`shift+F12`**: find references (vscode-like)
+- **jump list** (navigate back/forward after `gd`, opening files, etc.)
+  - **`ctrl+o`**: jump backward (older location)
+  - **`ctrl+i`**: jump forward (newer location; same as **`tab`** in normal mode)
 - **formatting**
   - **`space f`**: format file/selection
 - **commenting**
@@ -233,6 +239,29 @@ for python:
 3. start debugging with `space dc` (continue).
 4. use `space do` / `space di` / `space dO` to step, and `space dq` to stop.
 5. toggle the dap ui panel with `space du`.
+
+### Ruby LSP (ruby_lsp) quit with exit code 1
+
+This usually means Ruby LSP failed to start because **`bundle install` failed** in your Ruby project. The LSP log (`~/.local/state/nvim/lsp.log`) often shows:
+
+- **`Gem::Ext::BuildError`** – a gem with native extensions (e.g. **nio4r**, **pg**) failed to compile.
+- **`Bundler::GemNotFound`** – some gems from the Gemfile are not installed (often as a result of the build error above).
+- **`Ruby LSP> Running bundle install failed`** – Ruby LSP tried to install the bundle and gave up.
+
+**Fix it in the project (outside Neovim):**
+
+1. Open a terminal and go to the Ruby project root (where the Gemfile is).
+2. Ensure build tools are installed (macOS: `xcode-select --install` if needed).
+3. If **nio4r** failed: remove a broken install and reinstall:
+   ```bash
+   gem uninstall nio4r
+   # if the gem dir is left in a bad state:
+   # rm -rf ~/.rbenv/versions/3.2.1/lib/ruby/gems/3.2.0/gems/nio4r-2.5.8
+   ```
+4. Run **`bundle install`** and fix any errors (missing system libs, wrong Ruby version, etc.).
+5. Restart Neovim and open a file in that project again.
+
+Once `bundle install` succeeds in the project, Ruby LSP should start without exiting with code 1.
 
 ### reload config after changes
 

@@ -34,16 +34,17 @@ end
 local function on_attach(_, bufnr)
   local map = vim.keymap.set
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  map('n', 'gd', vim.lsp.buf.definition, opts)
-  map('n', 'gD', vim.lsp.buf.declaration, opts)
-  map('n', 'gI', vim.lsp.buf.implementation, opts)
-  map('n', 'gr', vim.lsp.buf.references, opts)
-  map('n', 'K', vim.lsp.buf.hover, opts)
-  map('n', '<leader>rn', vim.lsp.buf.rename, opts)
-  map('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-  map('n', '[d', vim.diagnostic.goto_prev, opts)
-  map('n', ']d', vim.diagnostic.goto_next, opts)
-  map('n', '<leader>q', vim.diagnostic.setloclist, opts)
+  -- Go to definition / references / hover (any language with LSP)
+  map('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition' }))
+  map('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'Go to declaration' }))
+  map('n', 'gI', vim.lsp.buf.implementation, vim.tbl_extend('force', opts, { desc = 'Go to implementation' }))
+  map('n', 'gr', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'Find references' }))
+  map('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'Hover documentation' }))
+  map('n', '<leader>rn', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'Rename symbol' }))
+  map('n', '<leader>ca', vim.lsp.buf.code_action, vim.tbl_extend('force', opts, { desc = 'Code action' }))
+  map('n', '[d', vim.diagnostic.goto_prev, vim.tbl_extend('force', opts, { desc = 'Previous diagnostic' }))
+  map('n', ']d', vim.diagnostic.goto_next, vim.tbl_extend('force', opts, { desc = 'Next diagnostic' }))
+  map('n', '<leader>q', vim.diagnostic.setloclist, vim.tbl_extend('force', opts, { desc = 'Diagnostics list' }))
 end
 
 local function setup_server(server_name, extra_opts)

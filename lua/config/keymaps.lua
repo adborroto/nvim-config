@@ -124,18 +124,12 @@ map({ 'n', 'v' }, '<leader>f', function()
   end
 end, opts)
 
--- go to definition (vscode F12)
-map('n', '<F12>', function()
-  if vim.lsp.buf.definition then
-    vim.lsp.buf.definition()
-  end
-end, opts)
--- go to references (vscode shift+F12)
-map('n', '<S-F12>', function()
-  if vim.lsp.buf.references then
-    vim.lsp.buf.references()
-  end
-end, opts)
+-- LSP: go to definition / references / hover (global, same as F12 so gd/gr/K work even before on_attach)
+map('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition' }))
+map('n', 'gr', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'Find references' }))
+map('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'Hover documentation' }))
+map('n', '<F12>', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition (F12)' }))
+map('n', '<S-F12>', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'Find references (S-F12)' }))
 
 -- which-key (leader hints like vscode command palette discoverability)
 local wk = prequire('which-key')
